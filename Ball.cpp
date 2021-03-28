@@ -1,5 +1,5 @@
 #include "Shape.cpp"
-class Ball: public Shape
+class Ball: public virtual Shape
 {
 
 public:
