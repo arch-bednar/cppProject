@@ -1,15 +1,21 @@
 #include<iostream>
-#include "Ball.cpp"
-//#include "Board.cpp"
+#include "Ball.h"
+#include "Board.h"
+#include "Tile.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]){
-  std::cout << "Number of arguments: " << argc;
-  Ball ball(10, 10, 10);
-  cout << ball.getX()<<endl;
+  Shape *sh;
+  Shape s(3,4);
+  Rectangle r(1,2,5,5);
+  Board b(5,6,5,5);
+  Ball ba(12,1,6);
+  Tile t(2,2);
+  
+  Shape tab[5] = {s,r,b,ba,t};
 
-  //Board board(10, 10, 20, 20);
-  //cout <<board.getX();
-  return 0;
+  for (int i=0; i<5; i++){
+    cout << tab[i].getX();
+  }
 }
