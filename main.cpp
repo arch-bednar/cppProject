@@ -55,16 +55,24 @@ int main(){
 	
 	if(event.key.code == sf::Keyboard::A){
 	  //rec.setPosition(tilePos.x - square, tilePos.y);
-	  snake.setToward(-10, 0);
+	  if(snake.getTowardX() != 10 && snake.getTowardY() != 0)
+	    snake.setToward(-10, 0);
+	  
 	}else if(event.key.code == sf::Keyboard::D){
 	  //rec.setPosition(tilePos.x + square, tilePos.y);
-	  snake.setToward(10, 0);
+	  if(snake.getTowardX() != -10 && snake.getTowardY() != 0)
+	    snake.setToward(10, 0);
+	  
 	}else if(event.key.code == sf::Keyboard::W){
 	  //rec.setPosition(tilePos.x, tilePos.y - square);
-	  snake.setToward(0, -10);
+	  if(snake.getTowardX() != 0 && snake.getTowardY() != 10)
+	    snake.setToward(0, -10);
+	  
 	}else if(event.key.code == sf::Keyboard::S){
 	  //rec.setPosition(tilePos.x, tilePos.y + square);
-	  snake.setToward(0, 10);
+	  if(snake.getTowardX() != 0 && snake.getTowardY() != -10)
+	    snake.setToward(0, 10);
+	  
 	}else if(event.key.code == sf::Keyboard::Enter){
 	  //snake.setPosition();
 	  std::cout<<snake.getHeadX() << " " << snake.getHeadY() << "\n";
