@@ -1,14 +1,18 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include"Snake.cpp"
-#include<thread>
+#include"Food.cpp"
 #include<unistd.h>
+#include<stdlib.h>
+#include<string>
 
 void drawCircle(bool show);
 void makeMesh();
 void refresh();
 void drawSnake(Snake snake);
 bool contains(Snake snake, sf::RectangleShape rec);
+void genFood();
+bool isCorrect(int x, int y);
 
 const int dimension = 800;
 const int width = dimension;
@@ -17,26 +21,50 @@ const int height = dimension + 100;
 const int amount = 80;
 const int square = (dimension/amount);
 
+int result=0;
+
+int textPosX = 250;
+int textPosY = 820;
 
 sf::Color tileColor(100, 255, 210, 255);
 sf::Color foodColor(0, 0, 0, 255);
 sf::Color snakeColor(0, 0, 0, 255);
 
 sf::RectangleShape rec(sf::Vector2f(square, square));
+
+sf::RectangleShape borders[2];
+
 sf::Vector2f tilePos;
 sf::RectangleShape mesh[amount][amount];
+
+Food food(square, square);
+
+sf::Text score;
+auto scoreString = "Score: ";
+
+sf::Font font;
 
 sf::CircleShape cir(22);
 
 sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
 
-int main(){
-  Snake snake;
+Snake snake;
 
+int main(){
+
+  font.loadFromFile("./include/arial.ttf");
+
+  score.setString(scoreString + std::to_string(result));
+  score.setCharacterSize(32);
+  score.setFillColor(sf::Color::White);
+  score.setPosition(textPosX, textPosY);
+  score.setFont(font);
+
+  genFood();
   makeMesh();
   rec.setPosition(120, 120);
   bool showCircle = false;
-  
+  food.setFillColor(sf::Color::Red);
   //cir.setFillColor(foodColor);
   rec.setFillColor(sf::Color(0,0,0,255));
   
@@ -87,20 +115,27 @@ int main(){
     //window.draw(cir);
     refresh();
     //drawCircle(showCircle);
-    window.draw(rec);
+    //window.draw(rec);
     drawSnake(snake);
-
+    window.draw(score);
+    
     if(contains(snake, rec)){
+      ++result;
+      score.setString(scoreString + std::to_string(result));
       snake.resizeBody();
+      genFood();
     }
     
-    window.display();
+    
     if(snake.isCollision()){
       window.close();
     }
 
     //std::thread thread(drawSnake(rec));
     snake.setPosition();
+    window.draw(food);
+    window.draw(borders[0]);
+    window.display();
     usleep(100000);
    
   }
@@ -117,6 +152,8 @@ void makeMesh(){
       //std::cout << "posX " << posX << " posY " << posY << "\n";
       mesh[row][col].setSize(sf::Vector2f(square, square));
 
+      //if( row == amount && col == amount-1 ){
+      //	mesh[row][col].setFillColor(sf::Color(255, 255, 255, 255));
       if ( !(col == 0 || col == amount-1 || row == 0 || row == amount-1) ){
 	mesh[row][col].setFillColor(tileColor);
       }else{
@@ -145,7 +182,7 @@ void drawSnake(Snake snake){
 }
 
 bool contains(Snake snake, sf::RectangleShape rec){
-  if(snake.getHeadX() == rec.getPosition().x && snake.getHeadY() == rec.getPosition().y)
+  if(snake.getHeadX() == food.getX() && snake.getHeadY() == food.getY())
     return true;
   return false;
 }
@@ -158,9 +195,34 @@ void refresh(){
   }
 }
 
-void drawRec( sf::RectangleShape rec ){
-  while(true)
-    window.draw(rec);
+void genFood(){
+  int x,y;
+  srand(time(NULL));
+  do{
+  x = rand() % 780 + 1;
+  y = rand() % 780 + 1;
+  }while(!isCorrect(x, y));
+
+  food.changePos(x, y);
+}
+
+bool isCorrect(int x, int y){
+  if(x%10!=0 || y%10!=0 || x<10 || y < 10)
+    return false;
+
+  for(int part=0; part < snake.body.size(); part++){
+    if(snake.body.at(part).getPosition().x == x &&
+       snake.body.at(part).getPosition().y == y) { return false; }
+  }
+
+  return true;
+}
+
+void makeBorders(){
+  borders[0].setSize(width, 10);
+  borders[0].setPosition(0, textPosY - 10);
+
+    
 }
 
 void drawCircle(bool show){
