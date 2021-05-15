@@ -1,16 +1,14 @@
 #include<SFML/Graphics.hpp>
-#include<iostream>
 #include"Snake.cpp"
 #include"Food.cpp"
 #include"Score.cpp"
 #include"Board.cpp"
 #include<unistd.h>
 #include<stdlib.h>
-#include<string>
+
 
 void makeMesh();
 void refresh();
-bool contains(Snake snake, sf::RectangleShape rec);
 void genFood();
 bool isCorrect(int x, int y);
 
@@ -22,10 +20,10 @@ const int amount = 80;
 const int square = (dimension/amount);
 
 sf::RectangleShape deadCell(sf::Vector2f(square, square));
-Food food(square, square);
 
 sf::RenderWindow window(sf::VideoMode(width, height), "SFML Snake by Dejv", sf::Style::Titlebar | sf::Style::Close);
 
+Food food(square, square);
 Board board;
 Score score(dimension, square);
 Snake snake;
@@ -63,13 +61,7 @@ int main(){
 
 	  if(snake.getTowardX() != 0 && snake.getTowardY() != -10)
 	    snake.setToward(0, 10);
-	  
-	}else if(event.key.code == sf::Keyboard::Enter){
-
-	  std::cout<<snake.getHeadX() << " " << snake.getHeadY() << "\n";
-	  
-	}
-	
+	}	  
       }
       
     }
