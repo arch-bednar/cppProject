@@ -1,15 +1,20 @@
 #include"./include/Score.hpp"
 #include<iostream>
+
 Score::Score(int dimension, int square){
+
   this->dimension = dimension;
   this->square = square;
   
   makeFont();
   makeBorders();
+  
 }
 
 
 Score::~Score(){
+
+  std::cout <<"Score deleted\n";
   
 }
 

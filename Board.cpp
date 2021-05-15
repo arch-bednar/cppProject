@@ -1,12 +1,17 @@
 #include"./include/Board.hpp"
+#include<iostream>
 
 Board::Board(){
+
   makeMesh();
+  
 }
 
 
 Board::~Board(){
 
+  std::cout << "Board deleted\n";
+  
 }
 
 

@@ -1,4 +1,5 @@
 #include "./include/Snake.hpp"
+#include<iostream>
 
 Snake::Snake(){
 
@@ -15,6 +16,8 @@ Snake::Snake(){
 
 Snake::~Snake(){
 
+  std::cout << "Snake deleted\n";
+  
 }
 
 void Snake::setPosition(){

@@ -10,6 +10,7 @@
 void makeMesh();
 void refresh();
 void genFood();
+void deleteAllItems();
 bool isCorrect(int x, int y);
 
 const int dimension = 800;
@@ -101,7 +102,6 @@ int main(){
   return 0;
 
 }
-
 
 void genFood(){
 

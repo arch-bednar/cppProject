@@ -1,7 +1,10 @@
 #include"./include/Food.hpp"
+#include<iostream>
 
 Food::~Food(){
 
+  std::cout<<"Food deleted\n";
+  
 }
 
 int Food::getX(){
