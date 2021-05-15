@@ -13,6 +13,8 @@ void drawSnake(Snake snake);
 bool contains(Snake snake, sf::RectangleShape rec);
 void genFood();
 bool isCorrect(int x, int y);
+void makeBorders();
+void drawBorders();
 
 const int dimension = 800;
 const int width = dimension;
@@ -23,8 +25,8 @@ const int square = (dimension/amount);
 
 int result=0;
 
-int textPosX = 250;
-int textPosY = 820;
+int textPosX = 350;
+int textPosY = 830;
 
 sf::Color tileColor(100, 255, 210, 255);
 sf::Color foodColor(0, 0, 0, 255);
@@ -32,7 +34,7 @@ sf::Color snakeColor(0, 0, 0, 255);
 
 sf::RectangleShape rec(sf::Vector2f(square, square));
 
-sf::RectangleShape borders[2];
+sf::RectangleShape borders[4];
 
 sf::Vector2f tilePos;
 sf::RectangleShape mesh[amount][amount];
@@ -62,9 +64,10 @@ int main(){
 
   genFood();
   makeMesh();
+  makeBorders();
   rec.setPosition(120, 120);
   bool showCircle = false;
-  food.setFillColor(sf::Color::Red);
+  food.setFillColor(sf::Color::Blue);
   //cir.setFillColor(foodColor);
   rec.setFillColor(sf::Color(0,0,0,255));
   
@@ -116,8 +119,11 @@ int main(){
     refresh();
     //drawCircle(showCircle);
     //window.draw(rec);
-    drawSnake(snake);
+    
     window.draw(score);
+    drawBorders();
+    window.draw(food);
+    drawSnake(snake);
     
     if(contains(snake, rec)){
       ++result;
@@ -128,13 +134,15 @@ int main(){
     
     
     if(snake.isCollision()){
-      window.close();
+      snake.body.at(0).setFillColor(sf::Color::Red);
+      window.draw(snake.body.at(0));
+      window.display();
+      continue;
+      //window.close();
     }
 
     //std::thread thread(drawSnake(rec));
     snake.setPosition();
-    window.draw(food);
-    window.draw(borders[0]);
     window.display();
     usleep(100000);
    
@@ -219,10 +227,29 @@ bool isCorrect(int x, int y){
 }
 
 void makeBorders(){
-  borders[0].setSize(width, 10);
-  borders[0].setPosition(0, textPosY - 10);
+  //static int w = width;
+  borders[0].setSize(sf::Vector2f(width, square));
+  borders[0].setPosition(0, dimension);
+  borders[0].setFillColor(sf::Color::White);
 
-    
+  borders[1].setSize(sf::Vector2f(width, square));
+  borders[1].setPosition(0, dimension + 90);
+  borders[1].setFillColor(sf::Color::White);
+
+  borders[2].setSize(sf::Vector2f(square, 100));
+  borders[2].setPosition(0, dimension);
+  borders[2].setFillColor(sf::Color::White);
+
+  borders[3].setSize(sf::Vector2f(square, 100));
+  borders[3].setPosition(dimension-10, dimension);
+  borders[3].setFillColor(sf::Color::White);
+}
+
+void drawBorders(){
+  window.draw(borders[0]);
+  window.draw(borders[1]);
+  window.draw(borders[2]);
+  window.draw(borders[3]);
 }
 
 void drawCircle(bool show){
