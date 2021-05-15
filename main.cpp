@@ -48,7 +48,7 @@ sf::Font font;
 
 sf::CircleShape cir(22);
 
-sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
+sf::RenderWindow window(sf::VideoMode(width, height), "SFML Snake by Dejv", sf::Style::Titlebar | sf::Style::Close);
 
 Snake snake;
 
@@ -144,7 +144,7 @@ int main(){
     //std::thread thread(drawSnake(rec));
     snake.setPosition();
     window.display();
-    usleep(100000);
+    usleep(90000);
    
   }
   //thread.join();
