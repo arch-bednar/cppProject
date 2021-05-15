@@ -1,1 +1,1 @@
-g++ main.cpp -lsfml-graphics -lsfml-system -lsfml-window
+g++ drive.cpp -lsfml-graphics -lsfml-window -lsfml-system
